@@ -5,7 +5,11 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 @Table(name="TB_USER")
 public class User {
@@ -34,23 +38,10 @@ public class User {
     public User() {
     }
 
-    public Provider getProvider() {
-        return provider;
-    }
- 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
-    }
-    
     public enum Provider {
         LOCAL, GOOGLE
     }
-    
-    public User(String name, String email) {
-        super();
-        this.name = name;
-        this.email = email;
-    }
+
     
     public User(User user) {
         super();
@@ -76,45 +67,5 @@ public class User {
         this.roles = roles;
         this.provider = provider;
     }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
 
 }

@@ -1,46 +1,90 @@
 package com.weboloja.webloja.service;
 
+import com.weboloja.webloja.config.Compra;
 import com.weboloja.webloja.model.Carrinho;
+import com.weboloja.webloja.model.Endereco;
+import com.weboloja.webloja.model.Produto;
+import com.weboloja.webloja.model.User;
 import com.weboloja.webloja.repository.CarrinhoRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.dom4j.DocumentException;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
-
-
-@org.springframework.stereotype.Service
+@RequiredArgsConstructor
+@Service
 public class CarrinhoService {
-	
-	@Autowired
-	CarrinhoRepository cr;
-	
-	public List<Carrinho> findAll() {
-		return cr.findAll();		
+
+	private final CarrinhoRepository carrinhoRepository;
+
+	private final ProdutoService produtoService;
+
+	private final EnderecoService enderecoService;
+
+	public String updateCarrinho1(Carrinho carrinho, Long id) {
+		carrinho.setIdUsuario(id);
+		if(carrinhoRepository.existsById(carrinho.getId())){
+			carrinhoRepository.save(carrinho);
+			return "redirect:/produto/" + carrinho.getIdProduto().toString();
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Carrinho não existe.");
 	}
 	
-	public Carrinho findID(Long id) {
-		return cr.findById(id).get();
+	public String updateCarrinho2(Carrinho carrinho, Long id) {
+		carrinho.setIdUsuario(id);
+		if(carrinhoRepository.existsById(carrinho.getId())){
+			carrinhoRepository.save(carrinho);
+			return "redirect:/carrinho";
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Carrinho não existe.");
 	}
 	
-	public Carrinho save(Carrinho carrinho) {
-		return cr.save(carrinho);
+	public String dropCarrinho(Long IdUsuario, Long IdProduto) {
+		Long id = carrinhoRepository
+				.findByIdUsuarioAndIdProduto(IdUsuario,IdProduto).getId();
+		carrinhoRepository.deleteById(id);
+		return "redirect:/carrinho";
 	}
 
-	public Carrinho findItem(Carrinho carrinho){
-		return cr.findItem(carrinho.getIdUsuario(), carrinho.getIdProduto());
+	public ModelAndView getCarrinho (Long IdUsuario){
+		ModelAndView mv = new ModelAndView("carrinho");
+		List<Carrinho> carrinhos = carrinhoRepository.findCarrinhoByIdUsuario(IdUsuario);
+		List <Produto> produtos = new ArrayList<>();
+		for (Carrinho carrinho : carrinhos) {
+			produtos.add(produtoService.findID(carrinho.getIdProduto()));
+		}
+		mv.addObject("produtos", produtos);
+		mv.addObject("carrinho", carrinhos);
+		return mv;
 	}
-	
-	public void updateCarrinho(int quantidade, Carrinho carrinho) {
-		cr.updateCarrinho(quantidade, carrinho.getIdUsuario(), carrinho.getIdProduto());
+
+	public ModelAndView finalizaCompra(User usuario) {
+		ModelAndView mv = getCarrinho(usuario.getId());
+		@SuppressWarnings("unchecked")
+		List <Produto> produtos = (List<Produto>) mv.getModel().get("produtos");
+		@SuppressWarnings("unchecked")
+		List <Carrinho> carrinho = (List<Carrinho>) mv.getModel().get("carrinho");
+		Endereco endereco = enderecoService.findID(usuario.getId());
+		if (produtos.isEmpty() || endereco.getBairro() == null) {
+			if (produtos.isEmpty())
+				mv.addObject("menssagem", "Selecione um produto antes de finalizar a compra.");
+			else
+				mv.addObject("menssagem", "É necessário criar um endereço antes.");
+		} else {
+			try {
+				Compra c = new Compra();
+				String codigo = c.comprar(endereco, usuario, carrinho, produtos);
+				mv.addObject("codigo", codigo);
+			} catch (DocumentException ignored) {
+			}
+		}
+		return mv;
 	}
-	
-	public void dropCarrinho(Long IdUsuario, Long IdProduto) {
-		cr.dropCarrinho(IdUsuario, IdProduto);
-	}
-	
-	public List<Carrinho> findCarrinho(Long IdUsuario) {
-		return cr.findCarrinho(IdUsuario);
-				
-	}
+
 }

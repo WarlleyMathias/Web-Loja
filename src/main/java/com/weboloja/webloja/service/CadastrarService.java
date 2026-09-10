@@ -2,21 +2,22 @@ package com.weboloja.webloja.service;
 
 import java.util.Arrays;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.weboloja.webloja.model.Role;
 import com.weboloja.webloja.model.User;
 import com.weboloja.webloja.repository.RoleRepository;
 import com.weboloja.webloja.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
-@org.springframework.stereotype.Service
+@Service
+@RequiredArgsConstructor
 public class CadastrarService {
-	
-    @Autowired
-    UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+	private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
 
 	public String cadastrar(String nome, String email, String password) {
 		

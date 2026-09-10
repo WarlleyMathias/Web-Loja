@@ -1,23 +1,24 @@
 package com.weboloja.webloja.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weboloja.webloja.service.CadastrarService;
 
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class CadastrarController {
-	
-    @Autowired
-    CadastrarService cadastrarService;
+
+    private final CadastrarService cadastrarService;
 
 		@RequestMapping(value="/cadastrar", method=RequestMethod.GET)
 		public ModelAndView getLogin() {
-			ModelAndView mv = new ModelAndView("cadastrar");
-			return mv;
+            return new ModelAndView("cadastrar");
 		}
 		
 		@RequestMapping(value="/cadastrar", method=RequestMethod.POST)
