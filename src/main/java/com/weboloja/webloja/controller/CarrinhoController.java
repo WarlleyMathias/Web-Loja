@@ -1,46 +1,41 @@
 package com.weboloja.webloja.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.weboloja.webloja.model.Carrinho;
 import com.weboloja.webloja.service.CarrinhoService;
-import com.weboloja.webloja.service.UserService;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class CarrinhoController {
 
 	CarrinhoService carrinhoService;
 
-	UserService userService;
-
-	@RequestMapping(value="/carrinho", method=RequestMethod.GET)
+	@GetMapping("/carrinho")
 	public ModelAndView getCarrinho() {
-		return carrinhoService.getCarrinho(userService.usuarioLogado().getId());
+		return carrinhoService.getCarrinho();
 	}
-	
-	@RequestMapping(value="/addcarrinho", method=RequestMethod.POST)
+
+	@PostMapping(value="/addcarrinho")
 	public String setAddcarrinho(Carrinho carrinho) {
-		return carrinhoService.updateCarrinho1(carrinho, userService.usuarioLogado().getId());
+		return carrinhoService.updateCarrinho1(carrinho);
 	}
-	
-	@RequestMapping(value="/addcarrinho2", method=RequestMethod.POST)
+
+	@PostMapping(value="/addcarrinho2")
 	public String setAddcarrinho2(Carrinho carrinho) {
-		return carrinhoService.updateCarrinho2(carrinho, userService.usuarioLogado().getId());
+		return carrinhoService.updateCarrinho2(carrinho);
 	}
 	
-	@RequestMapping(value="/dropcarrinho", method=RequestMethod.POST)
+	@PostMapping("/dropcarrinho")
 	public String dropCarrinho(Long IdUsuario, Long IdProduto) {
 		return carrinhoService.dropCarrinho(IdUsuario, IdProduto);
 	}
 	
-	@RequestMapping(value="/finalizarcompra", method=RequestMethod.GET)
+	@GetMapping("/finalizarcompra")
 	public ModelAndView finalizaCompra() {
-		return carrinhoService.finalizaCompra(userService.usuarioLogado());
+		return carrinhoService.finalizaCompra();
 	}
 	
 }

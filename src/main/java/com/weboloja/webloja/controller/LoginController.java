@@ -1,22 +1,19 @@
 package com.weboloja.webloja.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@org.springframework.stereotype.Controller
+@RestController
 public class LoginController {
 
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@GetMapping("/login")
 	public ModelAndView getLogin() {
-		ModelAndView mv = new ModelAndView("login");
-		return mv;
+        return new ModelAndView("login");
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@PostMapping("/login")
 	public ModelAndView setLogin() {
-		ModelAndView mv = new ModelAndView("login");
-		return mv;
+        return new ModelAndView("login");
 	}
 	
 }
