@@ -5,26 +5,21 @@ import com.weboloja.webloja.repository.CategoriaRepository;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-
-
-@org.springframework.stereotype.Service
+@RequiredArgsConstructor
+@Service
 public class CategoriaService {
-	
-	@Autowired
-	CategoriaRepository cr;
+
+	CategoriaRepository categoriaRepository;
 	
 	public List<Categoria> findAll() {
-		return cr.findAll();		
-	}
-	
-	public Categoria findID(Long id) {
-		return cr.findById(id).get();
+		return categoriaRepository.findAll();
 	}
 	
 	public Categoria save(Categoria categoria) {
-		return cr.save(categoria);
+		return categoriaRepository.save(categoria);
 	}
 
 }

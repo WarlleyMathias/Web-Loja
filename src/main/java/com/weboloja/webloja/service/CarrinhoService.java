@@ -27,8 +27,11 @@ public class CarrinhoService {
 
 	private final EnderecoService enderecoService;
 
-	public String updateCarrinho1(Carrinho carrinho, Long id) {
-		carrinho.setIdUsuario(id);
+	private final UserService userService;
+
+	public String updateCarrinho1(Carrinho carrinho) {
+		User usuario = userService.usuarioLogado();
+		carrinho.setIdUsuario(usuario.getId());
 		if(carrinhoRepository.existsById(carrinho.getId())){
 			carrinhoRepository.save(carrinho);
 			return "redirect:/produto/" + carrinho.getIdProduto().toString();
@@ -36,8 +39,9 @@ public class CarrinhoService {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Carrinho não existe.");
 	}
 	
-	public String updateCarrinho2(Carrinho carrinho, Long id) {
-		carrinho.setIdUsuario(id);
+	public String updateCarrinho2(Carrinho carrinho) {
+		User usuario = userService.usuarioLogado();
+		carrinho.setIdUsuario(usuario.getId());
 		if(carrinhoRepository.existsById(carrinho.getId())){
 			carrinhoRepository.save(carrinho);
 			return "redirect:/carrinho";
@@ -52,9 +56,10 @@ public class CarrinhoService {
 		return "redirect:/carrinho";
 	}
 
-	public ModelAndView getCarrinho (Long IdUsuario){
+	public ModelAndView getCarrinho (){
+		User usuario = userService.usuarioLogado();
 		ModelAndView mv = new ModelAndView("carrinho");
-		List<Carrinho> carrinhos = carrinhoRepository.findCarrinhoByIdUsuario(IdUsuario);
+		List<Carrinho> carrinhos = carrinhoRepository.findCarrinhoByIdUsuario(usuario.getId());
 		List <Produto> produtos = new ArrayList<>();
 		for (Carrinho carrinho : carrinhos) {
 			produtos.add(produtoService.findID(carrinho.getIdProduto()));
@@ -64,13 +69,14 @@ public class CarrinhoService {
 		return mv;
 	}
 
-	public ModelAndView finalizaCompra(User usuario) {
-		ModelAndView mv = getCarrinho(usuario.getId());
+	public ModelAndView finalizaCompra() {
+		User usuario = userService.usuarioLogado();
+		ModelAndView mv = getCarrinho();
 		@SuppressWarnings("unchecked")
 		List <Produto> produtos = (List<Produto>) mv.getModel().get("produtos");
 		@SuppressWarnings("unchecked")
 		List <Carrinho> carrinho = (List<Carrinho>) mv.getModel().get("carrinho");
-		Endereco endereco = enderecoService.findID(usuario.getId());
+		Endereco endereco = enderecoService.findID();
 		if (produtos.isEmpty() || endereco.getBairro() == null) {
 			if (produtos.isEmpty())
 				mv.addObject("menssagem", "Selecione um produto antes de finalizar a compra.");

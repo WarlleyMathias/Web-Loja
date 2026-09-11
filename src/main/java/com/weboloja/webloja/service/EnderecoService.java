@@ -1,27 +1,49 @@
 package com.weboloja.webloja.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.weboloja.webloja.model.Endereco;
 import com.weboloja.webloja.repository.EnderecoRepository;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
+@RequiredArgsConstructor
 @Service
 public class EnderecoService {
-	
-	@Autowired
-	EnderecoRepository er;
-	
-	public Endereco save(Endereco endereco) {
-		return er.save(endereco);
+
+	EnderecoRepository enderecoRepository;
+
+	UserService userService;
+
+	public String save(Endereco endereco) {
+		endereco.setIdUser(userService.usuarioLogado().getId());
+		enderecoRepository.save(endereco);
+		return "redirect:/carrinho";
+	}
+
+	public Endereco findID() {
+		return enderecoRepository.findEnderecoByIdUser(userService.usuarioLogado().getId());
+	}
+
+		public ModelAndView getEditarEndereco() {
+		Endereco endereco = enderecoRepository.findEnderecoByIdUser(userService.usuarioLogado().getId());
+		if(endereco.getBairro().isEmpty()) {
+            return new ModelAndView("criarEndereco");
+		}else {
+			ModelAndView mv = new ModelAndView("editarEndereco");
+			mv.addObject("endereco", endereco);
+			return mv;
+		}
 	}
 	
-	public Endereco findID(Long id_user) {
-		return er.findEndereco(id_user);
-	}
-	
-	public void update(Endereco endereco, Long id_user) {
-		er.updateEndereco(endereco.getBairro(), endereco.getCep(), endereco.getCidade(), endereco.getEstado(), endereco.getNumero(), endereco.getRuaAvenida(), endereco.getComplemento(), endereco.getContinente(), endereco.getTelefone(), id_user);
+	public String update(Endereco endereco) {
+		if (enderecoRepository.existsByIdUser(userService.usuarioLogado().getId())){
+			enderecoRepository.save(endereco);
+			return "redirect:/perfil";
+		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Endereço não existe para ser atualizado.");
 	}
 
 }
