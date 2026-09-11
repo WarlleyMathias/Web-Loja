@@ -37,7 +37,7 @@ public class ProdutoService {
 	public ModelAndView findProdutos(Long id){
 		ModelAndView mv = new ModelAndView("produto");
 		Produto produto = findID(id);
-		List<Integer> itens = new ArrayList<Integer>(produto.getQuantidade());
+		List<Integer> itens = new ArrayList<>(produto.getQuantidade());
 		for(int i=0; i < produto.getQuantidade(); i++)
 			itens.add(i, i+1);
 		mv.addObject("user", userService.usuarioLogado());

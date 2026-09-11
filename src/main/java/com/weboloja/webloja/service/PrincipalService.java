@@ -18,8 +18,8 @@ public class PrincipalService {
     public ModelAndView getPrincipal(){
         ModelAndView mv = new ModelAndView("principal");
         List<Produto> produtos = produtoService.findAll();
-        List <Produto> produtos1 = new ArrayList<Produto>();
-        List <Produto> produtos2 = new ArrayList<Produto>();
+        List <Produto> produtos1 = new ArrayList<>();
+        List <Produto> produtos2 = new ArrayList<>();
         Random random = new Random();
         for(int i = 0; i < 6 && !produtos.isEmpty(); i++) {
             int r1 = random.nextInt(produtos.size());
