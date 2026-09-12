@@ -9,9 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Service
 public class PerfilService {
 
-    UserService userService;
+    private final UserService userService;
 
-    EnderecoService enderecoService;
+    private final EnderecoService enderecoService;
 
     public ModelAndView getPerfil(){
         ModelAndView mv = new ModelAndView("perfil");

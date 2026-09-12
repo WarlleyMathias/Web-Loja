@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class PerfilController {
 
-	PerfilService perfilService;
+	private final PerfilService perfilService;
 	
 	@GetMapping("/perfil")
 	public ModelAndView getPerfil() {

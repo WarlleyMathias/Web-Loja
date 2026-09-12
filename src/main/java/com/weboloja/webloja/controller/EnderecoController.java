@@ -13,7 +13,7 @@ import com.weboloja.webloja.service.EnderecoService;
 @RestController
 public class EnderecoController {
 
-	EnderecoService enderecoService;
+	private final EnderecoService enderecoService;
 	
 	@RequestMapping(value="/editarEndereco", method=RequestMethod.GET)
 	public ModelAndView getEditarEndereco() {

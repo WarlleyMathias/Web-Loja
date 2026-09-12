@@ -11,7 +11,7 @@ import com.weboloja.webloja.model.Categoria;
 @RestController
 public class ProdutosController {
 
-	ProdutosService produtosService;
+	private final ProdutosService produtosService;
 	
 	@GetMapping("/produtos/{categoriaAtual}/{pagina}")
 	public ModelAndView getProdutos(@PathVariable("categoriaAtual") String categoriaAtual, @PathVariable("pagina") int pagina) {

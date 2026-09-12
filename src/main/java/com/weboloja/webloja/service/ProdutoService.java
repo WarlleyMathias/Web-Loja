@@ -20,11 +20,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Service
 public class ProdutoService {
 
-	ProdutoRepository produtoRepository;
+	private final ProdutoRepository produtoRepository;
 
-	CategoriaService categoriaService;
+	private final CategoriaService categoriaService;
 
-	UserService userService;
+	private final UserService userService;
 	
 	public List<Produto> findAll() {
 		return produtoRepository.findAll();

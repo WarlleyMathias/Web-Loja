@@ -5,6 +5,7 @@
   
 <head>
 	<meta charset="utf-8">
+	<title></title>
 </head>
 
 	<main layout:fragment="custom-main" style="background:#e6e6e6">
@@ -44,9 +45,9 @@
 					<div class="">
 					  <h2 class="card-title pricing-card-title"><span th:text="'R$' + ${produto.getValorReal}"></span></h2>
 					  <p th:text="${produto.getDescricao}"></p>
-					  <p><h3 class="my-0 fw-normal">Estoque Disponível</h3></p>
-					  <p>Quantidade: 
-					 	<select style="border-radius:3px;" name="Quantidade" id="Quantidade">
+					  <p><h3 class="my-0 fw-normal">Estoque Disponível</h3>
+						<p>Quantidade:
+						  <label for="Quantidade"></label><select style="border-radius:3px;" name="Quantidade" id="Quantidade">
 					 	<option th:each="iten, itemStat : ${itens}" th:text="${itens.get(itemStat.index)}"></option>
 					 	</select>
 					  <span th:text="'(' + ${produto.getQuantidade} + ' Disponivel)'"></span></p>

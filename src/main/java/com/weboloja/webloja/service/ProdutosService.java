@@ -13,9 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ProdutosService {
-    CategoriaService categoriaService;
+    private final CategoriaService categoriaService;
 
-    ProdutoService produtoService;
+    private final ProdutoService produtoService;
 
     public ModelAndView getProdutos(String categoriaAtual,int pagina){
         ModelAndView mv = new ModelAndView("produtos");

@@ -2,7 +2,8 @@ package com.weboloja.webloja.service;
 
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,24 +12,20 @@ import org.springframework.stereotype.Service;
 
 import com.weboloja.webloja.model.User;
 import com.weboloja.webloja.repository.UserRepository;
+import org.springframework.web.server.ResponseStatusException;
 
+@RequiredArgsConstructor
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    public MyUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("Usuário não existe!", username));
+        if (userRepository.existsByEmail(username)) {
+            return new UserRepositoryUserDetails(userRepository.findByEmail(username));
         }
-        return new UserRepositoryUserDetails(user);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Usuário não existe.");
     }
 
     private final static class UserRepositoryUserDetails extends User implements UserDetails {

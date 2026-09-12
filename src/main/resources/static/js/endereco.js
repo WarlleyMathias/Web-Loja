@@ -1,53 +1,44 @@
-function MaxLength8(i) {
-    if (i.value.length > 8) {
-        i.value = i.value.slice(0,8); 
-    }
-}
-
 function MascaraInteiro(num) {
-    var er = /[^0-9]/;
-    er.lastIndex = 0;
-    var campo = num;
-    if (er.test(campo.value)) {///verifica se é string, caso seja então apaga
-        var texto = $(campo).val();
-        $(campo).val(texto.substring(0, texto.length - 1));
-        return false;
-    } else {
-        return true;
-    }
+    const er = /[^0-9]/;
+    Mascara(num,er);
 }
 function MascaraFloat(num) {
-    var er = /[^0-9.,]/;
+    const er = /[^0-9.,]/;
+    Mascara(num,er);
+}
+function Mascara(num,er){
     er.lastIndex = 0;
-    var campo = num;
+    const campo = num;
     if (er.test(campo.value)) {///verifica se é string, caso seja então apaga
-        var texto = $(campo).val();
+        const texto = $(campo).val();
         $(campo).val(texto.substring(0, texto.length - 1));
         return false;
     } else {
         return true;
     }
 }
+
  //formata de forma generica os campos
 function formataCampo(campo, Mascara) {
-    var er = /[^0-9/ (),.-]/;
+    let texto;
+    const er = /[^0-9/ (),.-]/;
     er.lastIndex = 0;
 
     if (er.test(campo.value)) {///verifica se é string, caso seja então apaga
-        var texto = $(campo).val();
+        texto = $(campo).val();
         $(campo).val(texto.substring(0, texto.length - 1));
     }
-    var boleanoMascara;
-    var exp = /\-|\.|\/|\(|\)| /g
-    var campoSoNumeros = campo.value.toString().replace(exp, "");
-    var posicaoCampo = 0;
-    var NovoValorCampo = "";
-    var TamanhoMascara = campoSoNumeros.length;
-    for (var i = 0; i <= TamanhoMascara; i++) {
-        boleanoMascara = ((Mascara.charAt(i) == "-") || (Mascara.charAt(i) == ".")
-                || (Mascara.charAt(i) == "/"))
-        boleanoMascara = boleanoMascara || ((Mascara.charAt(i) == "(")
-                || (Mascara.charAt(i) == ")") || (Mascara.charAt(i) == " "))
+    let boleanoMascara;
+    const exp = /[-.\/() ]/g;
+    const campoSoNumeros = campo.value.toString().replace(exp, "");
+    let posicaoCampo = 0;
+    let NovoValorCampo = "";
+    let TamanhoMascara = campoSoNumeros.length;
+    for (let i = 0; i <= TamanhoMascara; i++) {
+        boleanoMascara = ((Mascara.charAt(i) === "-") || (Mascara.charAt(i) === ".")
+                || (Mascara.charAt(i) === "/"))
+        boleanoMascara = boleanoMascara || ((Mascara.charAt(i) === "(")
+                || (Mascara.charAt(i) === ")") || (Mascara.charAt(i) === " "))
         if (boleanoMascara) {
             NovoValorCampo += Mascara.charAt(i);
             TamanhoMascara++;
@@ -59,7 +50,7 @@ function formataCampo(campo, Mascara) {
     campo.value = NovoValorCampo;
     ////LIMITAR TAMANHO DE CARACTERES NO CAMPO DE ACORDO COM A MASCARA//
     if (campo.value.length > Mascara.length) {
-        var texto = $(campo).val();
+        texto = $(campo).val();
         $(campo).val(texto.substring(0, texto.length - 1));
     }
     //////////////
@@ -67,7 +58,7 @@ function formataCampo(campo, Mascara) {
 }
 
 function MascaraMoeda(i) {
-	var v = 0;
+    let v;
     v = i.value.replace(/\D/g, '');
     v = (v / 100).toFixed(2) + '';
     v = v.replace(".", ",");
@@ -78,40 +69,40 @@ function MascaraMoeda(i) {
 
 function MascaraGenerica(seletor, tipoMascara) {
     setTimeout(function () {
-        if (tipoMascara == 'CPFCNPJ') {
+        if (tipoMascara === 'CPFCNPJ') {
             if (seletor.value.length <= 14) { //cpf
                 formataCampo(seletor, '000.000.000-00');
             } else { //cnpj
                 formataCampo(seletor, '00.000.000/0000-00');
             }
-        } else if (tipoMascara == 'DATA') {
+        } else if (tipoMascara === 'DATA') {
             formataCampo(seletor, '00/00/0000');
-        } else if (tipoMascara == 'CEP') {
+        } else if (tipoMascara === 'CEP') {
             formataCampo(seletor, '00000-000');
-        } else if (tipoMascara == 'TELEFONE') {
+        } else if (tipoMascara === 'TELEFONE') {
             formataCampo(seletor, '(00) 0 0000-0000');
-        } else if (tipoMascara == 'INTEIRO') {
+        } else if (tipoMascara === 'INTEIRO') {
             MascaraInteiro(seletor);
-        } else if (tipoMascara == 'FLOAT') {
+        } else if (tipoMascara === 'FLOAT') {
             MascaraFloat(seletor);
-        } else if (tipoMascara == 'CPF') {
+        } else if (tipoMascara === 'CPF') {
             formataCampo(seletor, '000.000.000-00');
-        } else if (tipoMascara == 'CNPJ') {
+        } else if (tipoMascara === 'CNPJ') {
             formataCampo(seletor, '00.000.000/0000-00');
-        } else if (tipoMascara == 'MOEDA') {
+        } else if (tipoMascara === 'MOEDA') {
             MascaraMoeda(seletor);
         }
     }, 200);
 }
 
 function SomenteNumero(event, seletor, tipoMascara){
-    var tecla=(window.event)?event.keyCode:e.which;   
+    const tecla = (window) ? event.keyCode : event.which;
     if((tecla>47 && tecla<58)) {
 	MascaraGenerica(seletor, tipoMascara); 
 	return true;
 	}
     else{
-    	if (tecla==8 || tecla==0) {
+    	if (tecla===8 || tecla===0) {
 	MascaraGenerica(seletor, tipoMascara); 
 	return true;
 	}
@@ -123,10 +114,9 @@ function SomenteNumero(event, seletor, tipoMascara){
 }
 
 function SoNumber(event){
-    var tecla=(window.event)?event.keyCode:e.which;   
+    const tecla = (window) ? event.keyCode : event.which;
     if((tecla>47 && tecla<58)) return true;
     else{
-    	if (tecla==8 || tecla==0) return true;
-	else  return false;
+    	return tecla === 8 || tecla === 0;
     }
 }

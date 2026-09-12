@@ -2,7 +2,7 @@
 
 <html lang="pt-br" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   layout:decorate="~{layout.html}">
-  
+
 <head>
 	<meta charset="utf-8">
 </head>
@@ -38,91 +38,91 @@
       <a class="btn my-3" style = "font: bold 30px arial; background-color:#FF4500; color:#000000;" href="https://api.whatsapp.com/send?phone=5522999896873" target="_blank">Faça seu Orçamento!</a>
     </div>
   </div>
-  
+
   <div class="position-relative overflow-hidden m-5">
   <div class="container border-bottom ">
   <h2>Melhores Ofertas</h2>
   </div>
-  
+
   <div id="carouselP" class="carousel slide" >
-  
+
   <div class="carousel-inner">
     <div class="carousel-item active p-2">
     <div class="row">
-    
+
      <div class="p-2 col-2 d-none d-lg-block" th:each="produto : ${produtos1}" >
           <div class="card shadow-sm">
-          
+
           <div class="boximg container">
            <img class="bd-placeholder-img card-img-top imgx" th:src="${produto.ImagePath}" alt="...">
-           
+
           </div>
-          	
+
             <div class="card-body">
               <p class="card-text encurtatexto" th:text="${produto.getNome}"></p>
               <p th:text="'R$' + ${produto.getValorReal}"></p>
-             
+
             </div>
             <a th:href="'/produto/' + ${produto.getId}" class="stretched-link"></a>
           </div>
         </div>
-        
+
         <div class="p-2 col-6 d-lg-none" th:each="produto,inter : ${produtos1}" th:if="${inter.index} < 2">
           <div class="card shadow-sm">
-          
+
           <div class="boximg container">
            <img class="bd-placeholder-img card-img-top imgx" th:src="${produto.ImagePath}" alt="...">
-           
+
           </div>
-          	
+
             <div class="card-body">
               <p class="card-text encurtatexto" th:text="${produto.getNome}"></p>
               <p th:text="'R$' + ${produto.getValorReal}"></p>
-             
+
             </div>
             <a th:href="'/produto/' + ${produto.getId}" class="stretched-link"></a>
           </div>
         </div>
-        
+
     </div>
     </div>
     <div class="carousel-item p-2">
     <div class="row">
-    
+
     <div class="p-2 col-2 d-none d-lg-block" th:each="produto : ${produtos2}" >
           <div class="card shadow-sm">
-          
+
           <div class="boximg container">
            <img class="bd-placeholder-img card-img-top imgx" th:src="${produto.ImagePath}" alt="...">
-           
+
           </div>
-          	
+
             <div class="card-body">
               <p class="card-text encurtatexto" th:text="${produto.getNome}"></p>
               <p th:text="'R$' + ${produto.getValorReal}"></p>
-             
+
             </div>
             <a th:href="'/produto/' + ${produto.getId}" class="stretched-link"></a>
           </div>
         </div>
-        
+
         <div class="p-2 col-6 d-lg-none" th:each="produto,inter : ${produtos2}" th:if="${inter.index} < 2">
           <div class="card shadow-sm">
-          
+
           <div class="boximg container">
            <img class="bd-placeholder-img card-img-top imgx" th:src="${produto.ImagePath}" alt="...">
-           
+
           </div>
-          	
+
             <div class="card-body">
               <p class="card-text encurtatexto" th:text="${produto.getNome}"></p>
               <p th:text="'R$' + ${produto.getValorReal}"></p>
-             
+
             </div>
             <a th:href="'/produto/' + ${produto.getId}" class="stretched-link"></a>
           </div>
         </div>
-        
+
     </div>
 
  </div>
@@ -139,17 +139,17 @@
 	</svg>
     <span class="visually-hidden">Next</span>
   </button>
-  
+
 </div>
 </div>
-  
+
   <div class="position-relative overflow-hidden text-center" style="background:#f2f2f2">
   <div class="container">
   	<div class="m-5">
   	<h2 class="display-5 fw-normal p-3" style = "font-family:Lucida Bright">Conserto de Celular</h2>
   	<p class="lead fw-normal" style = "font-family:Lucida Bright">Reparo de Placa e Manutenção em Geral</p>
   	</div>
-  	
+
   	<div style = "font-family:Lucida Bright">
   	<p>Conserto em Geral</p>
   	<p>Reparo de Placa</p>
@@ -164,12 +164,12 @@
   	</div>
 	</div>
   	</div>
-  
+
   <a href="https://wa.me/5522999896873?text=Adorei%20seu%20artigo" style="position:fixed;width:60px;height:60px;bottom:40px;right:40px;background-color:#25d366;color:#FFF;border-radius:50px;text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
   z-index:1000;" target="_blank">
 <i style="margin-top:16px" class="fa fa-whatsapp"></i>
 </a>
-  
+
 </main>
 
 </html>

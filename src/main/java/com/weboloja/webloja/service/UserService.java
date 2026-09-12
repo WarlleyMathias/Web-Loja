@@ -7,37 +7,34 @@ import com.weboloja.webloja.model.User.Provider;
 import com.weboloja.webloja.repository.RoleRepository;
 import com.weboloja.webloja.repository.UserRepository;
 
-import java.util.Arrays;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
- 
+
+@RequiredArgsConstructor
 @Service
 public class UserService {
- 
-    @Autowired
-    private UserRepository ur;
-    
-    @Autowired
-    private RoleRepository rr;
+
+    private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
      
     public void processOAuthPostLogin(String name, String email) {
-        User existUser = ur.findByEmail(email);
-        
-        Role role = rr.findByName("ROLE_USER");
-         
-        if (existUser == null) {
-        	User user = new User(name, email, Provider.GOOGLE, Arrays.asList(role));
-            ur.save(user);        
+        List <Role> role = List.of(roleRepository.findByName("ROLE_USER"));
+        if (!userRepository.existsByEmail(email)) {
+        	User user = new User(name, email, Provider.GOOGLE, role);
+            userRepository.save(user);
         }
          
     }
     
     public String nomeUsuarioLogado() {
     	try {
-    		CustomOAuth2User oauthUser = new CustomOAuth2User((OAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    		CustomOAuth2User oauthUser = new CustomOAuth2User((OAuth2User)
+                    SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 	    	return oauthUser.getEmail();
     	}catch(Exception e){
     		return SecurityContextHolder.getContext().getAuthentication().getName();
@@ -45,7 +42,7 @@ public class UserService {
     }
     
     public User usuarioLogado() {
-    	return ur.findByEmail(nomeUsuarioLogado());
+    	return userRepository.findByEmail(nomeUsuarioLogado());
     }
      
 }

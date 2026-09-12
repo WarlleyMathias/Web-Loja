@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class PrincipalController {
 
-	PrincipalService principalService;
+	private final PrincipalService principalService;
 
 	@GetMapping("/")
 	public ModelAndView getPrincipal() {

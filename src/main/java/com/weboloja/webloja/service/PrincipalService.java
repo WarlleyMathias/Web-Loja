@@ -13,7 +13,7 @@ import java.util.Random;
 @Service
 public class PrincipalService {
 
-    ProdutoService produtoService;
+    private final ProdutoService produtoService;
 
     public ModelAndView getPrincipal(){
         ModelAndView mv = new ModelAndView("principal");

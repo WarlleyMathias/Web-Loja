@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Service
 public class EnderecoService {
 
-	EnderecoRepository enderecoRepository;
+	private final EnderecoRepository enderecoRepository;
 
-	UserService userService;
+	private final UserService userService;
 
 	public String save(Endereco endereco) {
 		endereco.setIdUser(userService.usuarioLogado().getId());

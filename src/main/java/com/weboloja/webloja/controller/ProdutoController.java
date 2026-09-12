@@ -14,7 +14,7 @@ import com.weboloja.webloja.service.ProdutoService;
 @RestController
 public class ProdutoController {
 
-	ProdutoService produtoService;
+	private final ProdutoService produtoService;
 
 	@GetMapping ("/produto/{id}")
 	public ModelAndView getProduto(@PathVariable("id") long id) {

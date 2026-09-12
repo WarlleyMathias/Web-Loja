@@ -12,7 +12,7 @@
 	<artifactId>webloja</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>webloja</name>
-	<description>Loja de manutenção de celulares</description>
+	<description>Loja Online</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

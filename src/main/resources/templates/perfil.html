@@ -28,7 +28,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layo
 				</div>
 				
 				<div class="mb-3">
-					<label for="endereco">Endereço: </label><br>
+					<label id="endereco">Endereço: </label><br>
 					<label id="Cep" th:text="${endereco.getCep}"></label>
 					<label id="RuaAvenida" th:text="${endereco.getRuaAvenida}"></label>
 					<label id="Numero" th:text="${endereco.getNumero}"></label><br>

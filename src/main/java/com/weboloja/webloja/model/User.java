@@ -42,7 +42,7 @@ public class User {
         LOCAL, GOOGLE
     }
 
-    
+
     public User(User user) {
         super();
         this.name = user.getName();
@@ -50,6 +50,7 @@ public class User {
         this.password = user.getPassword();
         this.roles = user.getRoles();
         this.id = user.getId();
+        this.provider = user.getProvider();
     }
     
     public User(String name, String email, String password, List<Role> roles) {

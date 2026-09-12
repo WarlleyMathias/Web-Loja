@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoriaService {
 
-	CategoriaRepository categoriaRepository;
+	private final CategoriaRepository categoriaRepository;
 	
 	public List<Categoria> findAll() {
 		return categoriaRepository.findAll();
